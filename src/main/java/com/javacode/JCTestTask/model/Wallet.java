@@ -19,11 +19,11 @@ public class Wallet {
         this.balance = BigDecimal.ZERO;
     }
 
-    public UUID getWalletId() {
+    public UUID getId() {
         return walletId;
     }
 
-    public void setWalletId(UUID walletId) {
+    public void setId(UUID walletId) {
         this.walletId = walletId;
     }
 
