@@ -18,27 +18,29 @@ public class WalletService {
 
     @Transactional
     public void performOperation(WalletRequest request) {
-        UUID walletId = request.getWalletId();
-        OperationType operationType = request.getOperationType();
-        BigDecimal amount = request.getAmount();
+        synchronized (this) {
+            UUID walletId = request.getWalletId();
+            OperationType operationType = request.getOperationType();
+            BigDecimal amount = request.getAmount();
 
-        // Проверка на отрицательную сумму
-        if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Amount must be positive");
-        }
-
-        Wallet wallet = walletRepository.findById(walletId)
-                .orElseThrow(() -> new RuntimeException("Wallet not found"));
-
-        if (operationType == OperationType.DEPOSIT) {
-            wallet.setBalance(wallet.getBalance().add(amount));
-        } else if (operationType == OperationType.WITHDRAW) {
-            if (wallet.getBalance().compareTo(amount) < 0) {
-                throw new RuntimeException("Not enough balance");
+            // Проверка на отрицательную сумму
+            if (amount.compareTo(BigDecimal.ZERO) < 0) {
+                throw new IllegalArgumentException("Amount must be positive");
             }
-            wallet.setBalance(wallet.getBalance().subtract(amount));
+
+            Wallet wallet = walletRepository.findById(walletId)
+                    .orElseThrow(() -> new RuntimeException("Wallet not found"));
+
+            if (operationType == OperationType.DEPOSIT) {
+                wallet.setBalance(wallet.getBalance().add(amount));
+            } else if (operationType == OperationType.WITHDRAW) {
+                if (wallet.getBalance().compareTo(amount) < 0) {
+                    throw new RuntimeException("Not enough balance");
+                }
+                wallet.setBalance(wallet.getBalance().subtract(amount));
+            }
+            walletRepository.save(wallet);
         }
-        walletRepository.save(wallet);
     }
 
     public BigDecimal getBalance(UUID walletId) {
