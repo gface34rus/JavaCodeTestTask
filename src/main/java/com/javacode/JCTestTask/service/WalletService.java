@@ -21,7 +21,15 @@ public class WalletService {
         UUID walletId = request.getWalletId();
         OperationType operationType = request.getOperationType();
         BigDecimal amount = request.getAmount();
-        Wallet wallet = walletRepository.findById(walletId).orElseThrow(() -> new RuntimeException("Wallet not found"));
+
+        // Проверка на отрицательную сумму
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Amount must be positive");
+        }
+
+        Wallet wallet = walletRepository.findById(walletId)
+                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+
         if (operationType == OperationType.DEPOSIT) {
             wallet.setBalance(wallet.getBalance().add(amount));
         } else if (operationType == OperationType.WITHDRAW) {

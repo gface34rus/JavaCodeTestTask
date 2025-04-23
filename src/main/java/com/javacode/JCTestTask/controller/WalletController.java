@@ -22,6 +22,11 @@ public class WalletController {
         return ResponseEntity.ok().build();
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
     @GetMapping("/{walletId}")
     public ResponseEntity<BigDecimal> getBalance(@PathVariable UUID walletId) {
         BigDecimal balance = walletService.getBalance(walletId);
