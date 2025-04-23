@@ -2,12 +2,14 @@ package com.javacode.JCTestTask.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
+@Table(name = "wallets")
 public class Wallet {
     @Id
     private UUID walletId;

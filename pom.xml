@@ -31,6 +31,7 @@
     </properties>
     <dependencies>
         <!-- Spring Boot Starter Web -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -55,11 +56,18 @@
             <version>${liquibase.version}</version>
         </dependency>
 
-        <!-- Springfox Swagger for API Documentation -->
+        <!-- Springdoc Swagger for API Documentation -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.6.15</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Spring Boot Starter Test for Testing -->
