@@ -74,6 +74,7 @@ public class WalletControllerTest {
                 .andExpect(status().isOk());
     }
 
+
     @Test
     public void testPerformOperationWithNonExistentWallet() throws Exception {
         mockMvc.perform(post("/api/v1/wallet")
@@ -82,17 +83,21 @@ public class WalletControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+
     @Test
     public void testGetBalance() throws Exception {
         mockMvc.perform(get("/api/v1/wallet/{walletId}", existingWalletId))
                 .andExpect(status().isOk());
     }
 
+
     @Test
     public void testGetBalanceWithNonExistentWallet() throws Exception {
         mockMvc.perform(get("/api/v1/wallet/{walletId}", nonExistentWalletId))
                 .andExpect(status().isNotFound());
     }
+
+
 
     @Test
     public void testPerformOperationWithInvalidData() throws Exception {
